@@ -1,0 +1,160 @@
+/* FONDO GENERAL */
+body{
+  background:#0a0a0a;
+  margin:0;
+  font-family:sans-serif;
+}
+
+.app-container{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  min-height:100vh;
+  background:#000;
+  color:white;
+  width:100%;
+}
+
+/* HEADER */
+.app-container > .header{
+  padding: 15px 0;
+  text-align:center;
+  border-bottom:1px solid #222;
+}
+
+/* GRID tipo Pinterest */
+.row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  gap: 10px;
+  padding: 10px;
+  flex-grow:1; /* ocupa todo el espacio posible */
+}
+
+/* CARDS */
+.custom-card{
+  background:#111;
+  border:none;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.custom-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+/* NAVBAR siempre visible */
+.bottom-nav{
+  background:#111;
+  border-top:1px solid #222;
+  width:100%;
+  padding:10px 0;
+  margin-top:10px;
+  border-radius:12px 12px 0 0;
+  flex-shrink:0; /* nunca se encoge */
+}
+
+/* CONTENEDOR NAV */
+.nav-wrapper{
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-icon{
+  color:white;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:0.25s;
+  position:relative;
+}
+
+.nav-icon:hover{
+  color:#ff2d2d;
+  transform:scale(1.15);
+}
+
+.nav-icon.active{
+  color:#ff2d2d;
+  text-shadow:0 0 8px #ff2d2d;
+}
+
+.icon-label{
+  position:absolute;
+  bottom:45px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111;
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:0.25s;
+}
+
+.nav-icon:hover .icon-label{
+  opacity:1;
+}
+
+.app-container{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:#000;
+  color:white;
+}
+
+/* HEADER */
+.header{
+  padding: 15px 0;
+  text-align:center;
+  border-bottom:1px solid #222;
+}
+
+/* CONTENIDO (imágenes) */
+.row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  gap: 10px;
+  padding: 10px;
+  flex-grow:1; /* ocupa todo el espacio restante */
+  overflow-y:auto; /* permite scroll si hay muchas imágenes */
+}
+
+/* CARDS */
+.custom-card{
+  background:#111;
+  border:none;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.custom-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+/* NAVBAR siempre visible */
+.bottom-nav{
+  background:#111;
+  border-top:1px solid #222;
+  width:100%;
+  padding:10px 0;
+  flex-shrink:0; /* nunca se encoge */
+  border-radius:12px 12px 0 0;
+  position:sticky;
+  bottom:0;
+}
+
+/* CONTENEDOR NAV */
+.nav-wrapper{
+  display:flex;
+  justify-content:space-around;
+}

@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/App-Vuelo/static/css/main.36542e42.css",
+    "main.js": "/App-Vuelo/static/js/main.d8852ea7.js",
+    "static/media/viajeseguro.mp4": "/App-Vuelo/static/media/viajeseguro.2f84ef243f65dd64d81d.mp4",
+    "static/media/fondo.jpg": "/App-Vuelo/static/media/fondo.35c89ae64096e01e89b9.jpg",
+    "index.html": "/App-Vuelo/index.html",
+    "main.36542e42.css.map": "/App-Vuelo/static/css/main.36542e42.css.map",
+    "main.d8852ea7.js.map": "/App-Vuelo/static/js/main.d8852ea7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.36542e42.css",
+    "static/js/main.d8852ea7.js"
+  ]
+}

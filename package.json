@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://isaacjamieln-ops.github.io/App-Vuelo",
+  "homepage": "https://isaacjamieln-ops.github.io/App-Vuelo2",
   "eslintConfig": {
     "extends": [
       "react-app",

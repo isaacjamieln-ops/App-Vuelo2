@@ -15,7 +15,7 @@ if (redirect) {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <BrowserRouter basename="/App-Vuelo">
+  <BrowserRouter basename="/App-Vuelo2">
     <App />
   </BrowserRouter>
 );

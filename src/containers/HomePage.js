@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // agregamos useEffect aquí
 import Navbar from "../components/Navbar";
 import "./HomePage.css";
 import videoLocal from "../images/viajeseguro.mp4";
+
+/* 🔥 COMPONENTE DIVIDER */
+const Divider = ({ text }) => {
+  return (
+    <div className="section-divider">
+      <div className="divider-content">
+        <div className="divider-line" />
+        <span>{text}</span>
+      </div>
+    </div>
+  );
+};
 
 function HomePage() {
   const images = [
@@ -20,18 +32,41 @@ function HomePage() {
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === images.length - 1 ? 0 : prev + 1
+    );
   };
+
+  /* 🔥 FADE-IN AL HACER SCROLL */
+  useEffect(() => {
+    const elements = document.querySelectorAll(".fade-in");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="app-container">
+
       {/* HEADER */}
-      <div className="header">
+      <div className="header fade-in">
         <h1 className="app-title">Viaje Seguro</h1>
       </div>
 
       {/* BUSCADOR */}
-      <div className="search-card">
+      <div className="search-card fade-in">
         <input type="text" placeholder="Destino" className="search-input" />
         <input type="date" className="search-input" />
         <select className="search-input">
@@ -44,18 +79,28 @@ function HomePage() {
       </div>
 
       {/* VIDEO */}
-      <div className="video-container">
-        <video controls autoPlay muted loop>
+      <div className="video-container fade-in">
+        <video controls autoPlay muted loop preload="none" playsInline>
           <source src={videoLocal} type="video/mp4" />
           Tu navegador no soporta video.
         </video>
       </div>
 
+      {/* DESCRIPCIÓN */}
+      <div className="description fade-in">
+        <h2>Descubre tu próximo destino</h2>
+        <p>
+          Encuentra los mejores lugares para viajar con seguridad, comodidad y al mejor precio.
+          Explora destinos increíbles, planifica tu viaje y vive experiencias únicas.
+        </p>
+      </div>
+
       {/* CARRUSEL */}
-      <div className="carousel">
+      <div className="carousel fade-in">
         <button className="carousel-btn left" onClick={prevSlide}>
           &#10094;
         </button>
+
         <div className="carousel-slide-wrapper">
           <div
             className="carousel-slide"
@@ -64,26 +109,18 @@ function HomePage() {
             }}
           >
             {images.map((img, i) => (
-              <img key={i} src={img} alt={`slide${i + 1}`} />
+              <img key={i} src={img} alt={`slide${i + 1}`} loading="lazy" />
             ))}
           </div>
         </div>
+
         <button className="carousel-btn right" onClick={nextSlide}>
           &#10095;
         </button>
       </div>
 
-      {/* DESCRIPCIÓN */}
-      <div className="description">
-        <h2>Descubre tu próximo destino</h2>
-        <p>
-          Encuentra los mejores lugares para viajar con seguridad, comodidad y al mejor precio.
-          Explora destinos increíbles, planifica tu viaje y vive experiencias únicas.
-        </p>
-      </div>
-
       {/* PARALLAX */}
-      <div className="parallax-section">
+      <div className="parallax-section fade-in">
         <div className="parallax-overlay">
 
           <div className="description">
@@ -94,55 +131,171 @@ function HomePage() {
             </p>
           </div>
 
-          {/* 🔥 CARDS CORREGIDAS */}
-<div className="cards-container">
+          {/* DIVIDER */}
+          <Divider text="Explora el mundo con nosotros" />
 
-  <div className="card-pro">
-    <img src="https://e1.pxfuel.com/desktop-wallpaper/540/741/desktop-wallpaper-sunset-view-of-wonder-chichen-itza-in-mexico-chichen-itza.jpg" alt="M1"/>
-    <div className="card-content">
-      <div className="card-title">Chichén Itzá</div>
-      <div className="card-desc">Maravilla del mundo en México</div>
-    </div>
-  </div>
+          {/* CARDS */}
+          <div className="cards-container">
 
-  <div className="card-pro">
-    <img src="https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg" alt="M2"/>
-    <div className="card-content">
-      <div className="card-title">Taj Mahal</div>
-      <div className="card-desc">Icono del amor en India</div>
-    </div>
-  </div>
+            <div className="card-pro">
+              <div className="skeleton"></div>
+              <img
+                src="https://e1.pxfuel.com/desktop-wallpaper/540/741/desktop-wallpaper-sunset-view-of-wonder-chichen-itza-in-mexico-chichen-itza.jpg"
+                alt="M1"
+                loading="lazy"
+                className="img-blur"
+                onLoad={(e) => {
+                  e.target.classList.add("loaded");
+                  e.target.previousSibling.style.display = "none";
+                }}
+              />
+              <div className="card-content">
+                <div className="card-title">Chichén Itzá</div>
+                <div className="card-desc">Maravilla del mundo en México</div>
+              </div>
+            </div>
 
-  <div className="card-pro">
-    <img src="https://content-viajes.nationalgeographic.com.es/medio/2024/09/19/coliseo_9b206d89_240919151753_1280x853.jpg" alt="M3"/>
-    <div className="card-content">
-      <div className="card-title">Coliseo</div>
-      <div className="card-desc">Historia viva en Roma</div>
-    </div>
-  </div>
+            <div className="card-pro">
+              <div className="skeleton"></div>
+              <img
+                src="https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg"
+                alt="M2"
+                loading="lazy"
+                className="img-blur"
+                onLoad={(e) => {
+                  e.target.classList.add("loaded");
+                  e.target.previousSibling.style.display = "none";
+                }}
+              />
+              <div className="card-content">
+                <div className="card-title">Taj Mahal</div>
+                <div className="card-desc">Icono del amor en India</div>
+              </div>
+            </div>
 
-  <div className="card-pro">
-    <img src="https://historia.nationalgeographic.com.es/medio/2025/02/19/gran-muralla-china_01cbe21a_250219111818_1280x853.webp" alt="M4"/>
-    <div className="card-content">
-      <div className="card-title">Muralla China</div>
-      <div className="card-desc">La gran obra milenaria</div>
-    </div>
-  </div>
+            <div className="card-pro">
+              <div className="skeleton"></div>
+              <img
+                src="https://content-viajes.nationalgeographic.com.es/medio/2024/09/19/coliseo_9b206d89_240919151753_1280x853.jpg"
+                alt="M3"
+                loading="lazy"
+                className="img-blur"
+                onLoad={(e) => {
+                  e.target.classList.add("loaded");
+                  e.target.previousSibling.style.display = "none";
+                }}
+              />
+              <div className="card-content">
+                <div className="card-title">Coliseo</div>
+                <div className="card-desc">Historia viva en Roma</div>
+              </div>
+            </div>
 
-  <div className="card-pro">
-    <img src="https://th.bing.com/th/id/R.51a6096e0307871749ad63dab3627439?rik=JqjgM%2bWL0z9xgA&pid=ImgRaw&r=0" alt="M5"/>
-    <div className="card-content">
-      <div className="card-title">Machu Picchu</div>
-      <div className="card-desc">La joya de Perú</div>
-    </div>
-  </div>
+            <div className="card-pro">
+              <div className="skeleton"></div>
+              <img
+                src="https://historia.nationalgeographic.com.es/medio/2025/02/19/gran-muralla-china_01cbe21a_250219111818_1280x853.webp"
+                alt="M4"
+                loading="lazy"
+                className="img-blur"
+                onLoad={(e) => {
+                  e.target.classList.add("loaded");
+                  e.target.previousSibling.style.display = "none";
+                }}
+              />
+              <div className="card-content">
+                <div className="card-title">Muralla China</div>
+                <div className="card-desc">La gran obra milenaria</div>
+              </div>
+            </div>
 
-</div>
+            <div className="card-pro">
+              <div className="skeleton"></div>
+              <img
+                src="https://th.bing.com/th/id/R.51a6096e0307871749ad63dab3627439?rik=JqjgM%2bWL0z9xgA&pid=ImgRaw&r=0"
+                alt="M5"
+                loading="lazy"
+                className="img-blur"
+                onLoad={(e) => {
+                  e.target.classList.add("loaded");
+                  e.target.previousSibling.style.display = "none";
+                }}
+              />
+              <div className="card-content">
+                <div className="card-title">Machu Picchu</div>
+                <div className="card-desc">La joya de Perú</div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
+      </div>
+
+      {/* DIVIDER */}
+      <Divider text="Viajar nunca fue tan fácil" />
+
+      {/* PARALLAX 2 */}
+      <div className="parallax-section-2 fade-in">
+        <div className="parallax-overlay-alt">
+
+          <h2>¿Por qué viajar con nosotros?</h2>
+
+          <div className="benefits">
+            <div className="benefit-card">✈️ Mejores precios garantizados</div>
+            <div className="benefit-card">🌍 Destinos en todo el mundo</div>
+            <div className="benefit-card">🔒 Viajes seguros y confiables</div>
+            <div className="benefit-card">⚡ Reservas rápidas</div>
+          </div>
+
+          <button className="cta-button">Explorar destinos</button>
+
+        </div>
+      </div>
+
+      {/* DIVIDER */}
+      <Divider text="Miles de experiencias te esperan" />
+
+      {/* PARALLAX 3 */}
+      <div className="parallax-section-3 fade-in">
+        <div className="parallax-overlay-alt">
+
+          <h2>Tu aventura comienza aquí</h2>
+          <p>
+            No solo viajes… vive experiencias únicas, descubre culturas y crea recuerdos inolvidables.
+          </p>
+
+          <button className="cta-button">Planear mi viaje</button>
+
+        </div>
+      </div>
+
+      {/* DIVIDER */}
+      <Divider text="Lo que dicen nuestros viajeros" />
+
+      {/* PARALLAX 4 */}
+      <div className="parallax-section-4 fade-in">
+        <div className="parallax-overlay-alt">
+
+          <h2>Lo que dicen nuestros viajeros</h2>
+
+          <div className="testimonials">
+            <div className="testimonial">“Una experiencia increíble, todo fue perfecto.”</div>
+            <div className="testimonial">“Encontré vuelos baratos y sin complicaciones.”</div>
+            <div className="testimonial">“Definitivamente volveré a usar esta app.”</div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <div className="footer fade-in">
+        <p>© 2026 Viaje Seguro ✈️</p>
       </div>
 
       {/* NAVBAR */}
       <Navbar />
+
     </div>
   );
 }

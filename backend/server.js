@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-// 🔐 CONEXIÓN A MONGO
-const uri = "mongodb://rootviajeseguro:Kurumi@ac-frecrb4-shard-00-00.29flmed.mongodb.net:27017,ac-frecrb4-shard-00-01.29flmed.mongodb.net:27017,ac-frecrb4-shard-00-02.29flmed.mongodb.net:27017/?ssl=true&replicaSet=atlas-7i2p1a-shard-0&authSource=admin&retryWrites=true&w=majority&appName=ViajeSeguro";
+// 🔐 CONEXIÓN A MONGO (con variable de entorno para producción)
+const uri = process.env.MONGODB_URI || "mongodb://rootviajeseguro:Kurumi@ac-frecrb4-shard-00-00.29flmed.mongodb.net:27017,ac-frecrb4-shard-00-01.29flmed.mongodb.net:27017,ac-frecrb4-shard-00-02.29flmed.mongodb.net:27017/?ssl=true&replicaSet=atlas-7i2p1a-shard-0&authSource=admin&retryWrites=true&w=majority&appName=ViajeSeguro";
 
 const client = new MongoClient(uri);
 let db;
@@ -26,11 +26,14 @@ async function connectDB() {
     db = client.db("appVueloDB");
     
     // 🔥 Pasar la conexión a las rutas
-    ciudadesRoutes.setDB(db);
+    if (ciudadesRoutes.setDB) {
+      ciudadesRoutes.setDB(db);
+    }
     
     console.log("✅ Conectado a MongoDB Atlas");
   } catch (error) {
     console.error("❌ Error conectando a MongoDB:", error);
+    // No detenemos el servidor, solo mostramos el error
   }
 }
 
@@ -44,6 +47,10 @@ app.get("/", (req, res) => {
 // 📥 INSERTAR DATOS (SEED)
 app.get("/seed", async (req, res) => {
   try {
+    if (!db) {
+      return res.status(500).send("❌ Base de datos no conectada");
+    }
+    
     await db.collection("cities").deleteMany({});
 
     const cities = [
@@ -72,6 +79,9 @@ app.use("/api/cities", ciudadesRoutes.router);
 // 📊 MANTENEMOS LA RUTA ORIGINAL /cities (por compatibilidad)
 app.get("/cities", async (req, res) => {
   try {
+    if (!db) {
+      return res.status(500).json({ error: "Base de datos no conectada" });
+    }
     const cities = await db.collection("cities").find().toArray();
     res.json(cities);
   } catch (error) {
@@ -82,6 +92,10 @@ app.get("/cities", async (req, res) => {
 // ➕ MANTENEMOS LA RUTA ORIGINAL POST /cities (por compatibilidad)
 app.post("/cities", async (req, res) => {
   try {
+    if (!db) {
+      return res.status(500).json({ error: "Base de datos no conectada" });
+    }
+    
     const { name, country } = req.body;
 
     if (!name || !country) {
@@ -106,5 +120,5 @@ app.get("/cities/test", (req, res) => {
 
 // 🚀 SERVIDOR
 app.listen(port, () => {
-  console.log("🔥 Server corriendo en puerto " + port);
+  console.log(`🔥 Server corriendo en puerto ${port}`);
 });

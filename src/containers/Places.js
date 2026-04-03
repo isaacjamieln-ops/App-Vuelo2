@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import SearchSelect from '../components/SearchSelect';
 import './Places.css';
+import { API_URL } from '../config';  // ✅ SOLO AGREGAR ESTA LÍNEA
 
 function Places() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Places() {
 
   const fetchCities = async () => {
     try {
-      const response = await fetch('/api/cities');
+      const response = await fetch(`${API_URL}/cities`);  // ✅ SOLO CAMBIAR ESTA LÍNEA
       if (!response.ok) {
         throw new Error('Error al obtener las ciudades');
       }

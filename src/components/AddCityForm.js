@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { API_URL } from '../config';  // ✅ Agregar al inicio
+
+
 
 function AddCityForm({ onCityAdded }) {
   const [name, setName] = useState('');
@@ -12,7 +15,8 @@ function AddCityForm({ onCityAdded }) {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/cities', {
+      // Y cambiar el fetch a:
+const response = await fetch(`${API_URL}/cities`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

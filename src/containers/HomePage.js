@@ -4,6 +4,7 @@ import SearchSelect from "../components/SearchSelect";
 import "./HomePage.css";
 import videoLocal from "../images/viajeseguro.mp4";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";  // ✅ SOLO AGREGAR ESTA LÍNEA
 
 /* 🔥 COMPONENTE DIVIDER */
 const Divider = ({ text }) => {
@@ -41,11 +42,11 @@ function HomePage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ FETCH CIUDADES DESDE BACKEND (con proxy)
+  // ✅ FETCH CIUDADES DESDE BACKEND (con API_URL)
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('/api/cities');
+        const response = await fetch(`${API_URL}/cities`);  // ✅ SOLO CAMBIAR ESTA LÍNEA
         if (response.ok) {
           const data = await response.json();
           setCities(data);

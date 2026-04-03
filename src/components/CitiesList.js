@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';  // ✅ Agregar al inicio
 
 function CitiesList() {
   const [cities, setCities] = useState([]);
@@ -8,7 +9,8 @@ function CitiesList() {
   // Función para obtener las ciudades del backend
   const fetchCities = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/cities');
+      // Y cambiar el fetch a:
+const response = await fetch(`${API_URL}/cities`);
       if (!response.ok) {
         throw new Error('Error al obtener las ciudades');
       }

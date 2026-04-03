@@ -1,0 +1,452 @@
+/* Places.css - Versión corregida con cards sólidas */
+
+/* ============================= */
+/* CONTENEDOR PRINCIPAL */
+/* ============================= */
+.places-container {
+  min-height: 100vh;
+  background: #000;
+  color: white;
+  padding-bottom: 80px;
+}
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+.places-header {
+  text-align: center;
+  padding: 40px 20px 20px;
+  border-bottom: 1px solid #222;
+}
+
+.places-title {
+  font-size: 36px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #fff, #ff2d2d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.places-subtitle {
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+}
+
+/* ============================= */
+/* BUSCADOR */
+/* ============================= */
+.places-search-section {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-box {
+  background: rgba(17,17,17,0.7);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 5px;
+}
+
+.search-input-places {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input-places:focus {
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 0 0 2px rgba(255,45,45,0.3);
+}
+
+.search-input-places::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* ============================= */
+/* TARJETA DE CLIMA */
+/* ============================= */
+.weather-banner {
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.weather-card-simple {
+  background: rgba(17,17,17,0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(255,45,45,0.3);
+}
+
+.weather-icon {
+  font-size: 20px;
+}
+
+.weather-temp {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff2d2d;
+}
+
+.weather-location {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.weather-desc {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* ============================= */
+/* GRID DE CIUDADES - CARDS SÓLIDAS */
+/* ============================= */
+.cities-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* CARD SÓLIDA - TAMAÑO FIJO */
+.city-card-solid {
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 320px;
+}
+
+.city-card-solid:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-color: rgba(255,45,45,0.3);
+}
+
+/* IMAGEN DE LA CARD */
+.city-card-image {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.city-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.city-card-solid:hover .city-img {
+  transform: scale(1.08);
+}
+
+.city-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+/* CONTENIDO DE LA CARD */
+.city-card-content {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #111;
+}
+
+.city-card-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: white;
+}
+
+.city-card-country {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin: 0 0 16px 0;
+}
+
+.city-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.city-card-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff2d2d;
+  background: rgba(255,45,45,0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.city-card-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #ff2d2d;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.city-card-btn:hover {
+  transform: scale(1.05);
+  background: #ff4444;
+}
+
+.city-card-btn:active {
+  transform: scale(0.95);
+}
+
+/* ============================= */
+/* LOADING */
+/* ============================= */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 20px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255,45,45,0.3);
+  border-top-color: #ff2d2d;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================= */
+/* ERROR */
+/* ============================= */
+.error-container {
+  text-align: center;
+  padding: 40px;
+  background: rgba(17,17,17,0.9);
+  border-radius: 16px;
+  max-width: 400px;
+  margin: 15vh auto;
+  border: 1px solid rgba(255,45,45,0.3);
+}
+
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.error-container h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #ff2d2d;
+}
+
+.error-container p {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.error-btn {
+  margin-top: 20px;
+  padding: 10px 24px;
+  background: #ff2d2d;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.error-btn:hover {
+  transform: scale(1.05);
+  background: #ff4444;
+}
+
+/* ============================= */
+/* NO RESULTS */
+/* ============================= */
+.no-results {
+  text-align: center;
+  padding: 60px;
+  background: rgba(17,17,17,0.7);
+  border-radius: 16px;
+  grid-column: 1 / -1;
+}
+
+.no-results-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.no-results p {
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+@media (max-width: 768px) {
+  .cities-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .places-title {
+    font-size: 28px;
+  }
+
+  .city-card-name {
+    font-size: 18px;
+  }
+  
+  .city-card-price {
+    font-size: 14px;
+  }
+  
+  .city-card-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cities-grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .city-card-image {
+    height: 160px;
+  }
+
+  .weather-card-simple {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .city-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .city-card-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ============================= */
+/* SCROLLBAR */
+/* ============================= */
+.places-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.places-container::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.places-container::-webkit-scrollbar-thumb {
+  background: #ff2d2d;
+  border-radius: 4px;
+}
+
+.places-container::-webkit-scrollbar-thumb:hover {
+  background: #ff4444;
+}
+
+/* Agregar al final de Places.css */
+
+/* Botón para limpiar búsqueda */
+.clear-search-btn {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: rgba(255,45,45,0.2);
+  border: 1px solid rgba(255,45,45,0.5);
+  border-radius: 25px;
+  color: #ff2d2d;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.clear-search-btn:hover {
+  background: rgba(255,45,45,0.4);
+  transform: scale(1.05);
+}
+
+/* Asegurar que el selector tenga buen z-index */
+.places-search-section {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 100;
+}
+
+/* Agregar esto a Places.css */
+.places-search-section {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 100;
+}
+
+.places-search-select {
+  width: 100%;
+  position: relative;
+  z-index: 101;
+}

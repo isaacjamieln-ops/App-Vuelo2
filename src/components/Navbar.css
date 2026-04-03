@@ -44,3 +44,36 @@
   height: 70px;
   z-index: 9999;
 }
+
+.nav-icon {
+  position: relative; /* 👈 IMPORTANTE */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+}
+
+/* Tooltip oculto */
+.icon-label {
+  position: absolute;
+  bottom: 60px; /* aparece arriba del icono */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  
+  opacity: 0;
+  transition: 0.2s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Mostrar en hover */
+.nav-icon:hover .icon-label {
+  opacity: 1;
+}

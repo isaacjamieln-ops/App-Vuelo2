@@ -3,6 +3,9 @@ const { MongoClient } = require("mongodb");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+// Importar rutas
+const ciudadesRoutes = require("./routes/ciudades");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -18,66 +21,88 @@ const client = new MongoClient(uri);
 let db;
 
 async function connectDB() {
-  await client.connect();
-  db = client.db("appVueloDB");
-  console.log("✅ Conectado a MongoDB Atlas");
+  try {
+    await client.connect();
+    db = client.db("appVueloDB");
+    
+    // 🔥 Pasar la conexión a las rutas
+    ciudadesRoutes.setDB(db);
+    
+    console.log("✅ Conectado a MongoDB Atlas");
+  } catch (error) {
+    console.error("❌ Error conectando a MongoDB:", error);
+  }
 }
 
 connectDB();
-
 
 // 🟢 RUTA BASE
 app.get("/", (req, res) => {
   res.send("Servidor funcionando 🚀");
 });
 
-
 // 📥 INSERTAR DATOS (SEED)
 app.get("/seed", async (req, res) => {
-  await db.collection("cities").deleteMany({});
+  try {
+    await db.collection("cities").deleteMany({});
 
-  const cities = [
-    { name: "Tokyo", country: "Japan" },
-    { name: "Paris", country: "France" },
-    { name: "New York", country: "USA" },
-    { name: "Berlin", country: "Germany" },
-    { name: "Madrid", country: "Spain" },
-    { name: "Rome", country: "Italy" },
-    { name: "London", country: "UK" },
-    { name: "Seoul", country: "South Korea" },
-    { name: "Toronto", country: "Canada" },
-    { name: "Mexico City", country: "Mexico" }
-  ];
+    const cities = [
+      { name: "Tokyo", country: "Japan" },
+      { name: "Paris", country: "France" },
+      { name: "New York", country: "USA" },
+      { name: "Berlin", country: "Germany" },
+      { name: "Madrid", country: "Spain" },
+      { name: "Rome", country: "Italy" },
+      { name: "London", country: "UK" },
+      { name: "Seoul", country: "South Korea" },
+      { name: "Toronto", country: "Canada" },
+      { name: "Mexico City", country: "Mexico" }
+    ];
 
-  await db.collection("cities").insertMany(cities);
-
-  res.send("✅ Datos insertados");
-});
-
-
-// 📊 OBTENER CIUDADES
-app.get("/cities", async (req, res) => {
-  const cities = await db.collection("cities").find().toArray();
-  res.json(cities);
-});
-
-
-// ➕ CREAR CIUDAD (USA BODY PARSER)
-app.post("/cities", async (req, res) => {
-  const { name, country } = req.body;
-
-  if (!name || !country) {
-    return res.status(400).json({ error: "Faltan datos" });
+    await db.collection("cities").insertMany(cities);
+    res.send("✅ Datos insertados correctamente");
+  } catch (error) {
+    res.status(500).send("❌ Error al insertar datos: " + error.message);
   }
-
-  const result = await db.collection("cities").insertOne({ name, country });
-
-  res.json({
-    message: "Ciudad creada",
-    id: result.insertedId
-  });
 });
 
+// ✅ INTEGRACIÓN DE NUEVAS RUTAS (RESTful)
+app.use("/api/cities", ciudadesRoutes.router);
+
+// 📊 MANTENEMOS LA RUTA ORIGINAL /cities (por compatibilidad)
+app.get("/cities", async (req, res) => {
+  try {
+    const cities = await db.collection("cities").find().toArray();
+    res.json(cities);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ➕ MANTENEMOS LA RUTA ORIGINAL POST /cities (por compatibilidad)
+app.post("/cities", async (req, res) => {
+  try {
+    const { name, country } = req.body;
+
+    if (!name || !country) {
+      return res.status(400).json({ error: "Faltan datos" });
+    }
+
+    const result = await db.collection("cities").insertOne({ name, country });
+
+    res.json({
+      message: "Ciudad creada",
+      id: result.insertedId
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 🎯 RUTA ESPECÍFICA PARA EL TUTORIAL (localhost:5000/cities/test)
+app.get("/cities/test", (req, res) => {
+  res.json({ message: "Ruta de prueba de ciudades." });
+});
 
 // 🚀 SERVIDOR
 app.listen(port, () => {

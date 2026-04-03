@@ -1,0 +1,5 @@
+[33mcommit b8e1b3c9c223e186ddb3f29b79124298d004c61f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Jamiel Navarrete <isaacjnavarrete@gmail.com>
+Date:   Tue Mar 31 21:19:40 2026 -0600
+
+    Update .gitignore to ignore node_modules and build folders

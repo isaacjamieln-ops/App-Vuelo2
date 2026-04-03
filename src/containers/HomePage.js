@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react"; // agregamos useEffect aquí
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import SearchSelect from "../components/SearchSelect";
 import "./HomePage.css";
 import videoLocal from "../images/viajeseguro.mp4";
+import { useNavigate } from "react-router-dom";
 
 /* 🔥 COMPONENTE DIVIDER */
 const Divider = ({ text }) => {
@@ -16,6 +18,18 @@ const Divider = ({ text }) => {
 };
 
 function HomePage() {
+  const navigate = useNavigate();
+  
+  // ✅ Estado para las ciudades desde MongoDB
+  const [cities, setCities] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  const [loadingCities, setLoadingCities] = useState(true);
+  const [selectedCity, setSelectedCity] = useState(null);
+  
+  // ✅ Estado para el buscador
+  const [searchDate, setSearchDate] = useState("");
+  const [searchTravelers, setSearchTravelers] = useState("1");
+
   const images = [
     "https://blog.localadventures.mx/wp-content/uploads/2017/12/vuelos-baratos-paginas-b.jpg",
     "https://cdn.forbes.com.mx/2020/10/shutterstock_1206167314-res.jpg",
@@ -26,6 +40,48 @@ function HomePage() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // ✅ FETCH CIUDADES DESDE BACKEND (con proxy)
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('/api/cities');
+        if (response.ok) {
+          const data = await response.json();
+          setCities(data);
+          setDestinations(data);
+          setLoadingCities(false);
+        } else {
+          console.error('Error fetching cities');
+          setLoadingCities(false);
+        }
+      } catch (error) {
+        console.error('Error de conexión:', error);
+        setLoadingCities(false);
+      }
+    };
+    
+    fetchCities();
+  }, []);
+
+  // ✅ MANEJAR SELECCIÓN DE DESTINO
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+  };
+
+  // ✅ MANEJAR BÚSQUEDA
+  const handleSearch = () => {
+    if (selectedCity) {
+      navigate(`/places?search=${encodeURIComponent(selectedCity.name)}`);
+    } else {
+      navigate('/places');
+    }
+  };
+
+  // ✅ EXPLORAR DESTINOS
+  const handleExploreDestinations = () => {
+    navigate('/places');
+  };
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -65,18 +121,54 @@ function HomePage() {
         <h1 className="app-title">Viaje Seguro</h1>
       </div>
 
-      {/* BUSCADOR */}
+      {/* BUSCADOR CON SELECTOR INTEGRADO */}
       <div className="search-card fade-in">
-        <input type="text" placeholder="Destino" className="search-input" />
-        <input type="date" className="search-input" />
-        <select className="search-input">
+        {/* SELECTOR DE DESTINO CON BÚSQUEDA */}
+        <div className="search-select-wrapper">
+          <SearchSelect
+            options={cities}
+            placeholder="Selecciona un destino ✈️"
+            onSelect={handleCitySelect}
+            value={selectedCity}
+          />
+        </div>
+        
+        <input 
+          type="date" 
+          className="search-input"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+        />
+        
+        <select 
+          className="search-input"
+          value={searchTravelers}
+          onChange={(e) => setSearchTravelers(e.target.value)}
+        >
           <option>1 Persona</option>
           <option>2 Personas</option>
           <option>3 Personas</option>
           <option>4 Personas</option>
         </select>
-        <button className="search-button">Buscar</button>
+        
+        <button className="search-button" onClick={handleSearch}>
+          Buscar
+        </button>
       </div>
+
+      {/* TEMPERATURA - SECCIÓN CLIMA */}
+      {!loadingCities && cities.length > 0 && (
+        <div className="weather-section fade-in">
+          <div className="weather-card">
+            <div className="weather-icon">🌡️</div>
+            <div className="weather-temp">10°C</div>
+            <div className="weather-location">
+              {cities[Math.floor(Math.random() * cities.length)].name}
+            </div>
+            <div className="weather-desc">Temperatura promedio</div>
+          </div>
+        </div>
+      )}
 
       {/* VIDEO */}
       <div className="video-container fade-in">
@@ -248,7 +340,9 @@ function HomePage() {
             <div className="benefit-card">⚡ Reservas rápidas</div>
           </div>
 
-          <button className="cta-button">Explorar destinos</button>
+          <button className="cta-button" onClick={handleExploreDestinations}>
+            Explorar destinos
+          </button>
 
         </div>
       </div>
@@ -265,7 +359,9 @@ function HomePage() {
             No solo viajes… vive experiencias únicas, descubre culturas y crea recuerdos inolvidables.
           </p>
 
-          <button className="cta-button">Planear mi viaje</button>
+          <button className="cta-button" onClick={handleExploreDestinations}>
+            Planear mi viaje
+          </button>
 
         </div>
       </div>

@@ -27,7 +27,7 @@ function Navbar() {
           <span className="icon-label">Landing</span>
         </Link>
 
-        {/* PLACES */}
+        {/* PLACES - Aquí se mostrarán las CIUDADES */}
         <Link
           to="/places"
           className={`nav-icon ${location.pathname === "/places" ? "active" : ""}`}

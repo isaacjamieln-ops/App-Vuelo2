@@ -111,24 +111,35 @@
 
 .carousel-slide img {
   width: 100%;
-  max-height: 150px;
+  height: 150px;        /* 🔥 FIJO */
   object-fit: cover;
   border-radius: 12px;
   flex-shrink: 0;
-  margin: 0; /* 🔥 FIX */
+}
+
+.carousel-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: rgba(255,45,45,0.9);
 }
 
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  
+  display: flex;             /* 🔥 FIX */
+  align-items: center;       /* 🔥 FIX */
+  justify-content: center;   /* 🔥 FIX */
+
+  width: 40px;               /* 🔥 tamaño fijo */
+  height: 40px;
+
   background: rgba(0,0,0,0.6);
   color: white;
   border: none;
-  font-size: 30px;
-  padding: 5px 10px;
+  font-size: 20px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 20;
   border-radius: 50%;
 }
 
@@ -344,15 +355,15 @@
 
 /* imágenes distintas */
 .parallax-section-2 {
-  background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+  background-image: url('https://www.authentikcanada.com/uploads/images/orig/blog/pacific-rim-national-park.jpg');
 }
 
 .parallax-section-3 {
-  background-image: url('https://images.unsplash.com/photo-1491553895911-0055eca6402d');
+  background-image: url('https://cdn.pixabay.com/photo/2017/06/04/16/33/pyramids-2371501_1280.jpg');
 }
 
 .parallax-section-4 {
-  background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+  background-image: url('https://tr2storage.blob.core.windows.net/imagenes/nIoLCK5zpYF6-chC14sr9qfjpeg.jpeg');
 }
 
 /* config común */
@@ -702,4 +713,84 @@ p {
 
 .card-pro:hover img {
   transform: scale(1.08);
+}
+
+/* Estilo para el wrapper del selector en HomePage */
+.search-select-wrapper {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+/* Ajuste responsive */
+@media (max-width: 768px) {
+  .search-card {
+    flex-direction: column;
+  }
+  
+  .search-select-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .search-input {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+/* Asegurar que el buscador esté por encima */
+.search-card {
+  position: relative;
+  z-index: 100;
+  background: rgba(17,17,17,0.9);
+}
+
+.search-select-wrapper {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  position: relative;
+  z-index: 101;
+}
+
+/* Ajuste responsive */
+@media (max-width: 768px) {
+  .search-card {
+    flex-direction: column;
+    position: relative;
+    z-index: 200;
+  }
+  
+  .search-select-wrapper {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .search-input {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .search-button {
+    width: 100%;
+  }
+}
+
+/* Para que el dropdown se vea por encima de todo */
+.search-select-dropdown-overlay {
+  z-index: 9999 !important;
+}
+
+.carousel {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  margin: 15px auto;
+  overflow: hidden;
+  border-radius: 12px;
+
+  display: flex;            /* 🔥 FIX */
+  align-items: center;      /* 🔥 FIX */
 }

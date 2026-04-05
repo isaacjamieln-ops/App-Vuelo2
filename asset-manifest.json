@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/App-Vuelo2/static/css/main.322390a0.css",
-    "main.js": "/App-Vuelo2/static/js/main.1d2db5ee.js",
+    "main.css": "/App-Vuelo2/static/css/main.136f3aa3.css",
+    "main.js": "/App-Vuelo2/static/js/main.7caa66ca.js",
     "static/media/viajeseguro.mp4": "/App-Vuelo2/static/media/viajeseguro.2f84ef243f65dd64d81d.mp4",
     "static/media/fondo.jpg": "/App-Vuelo2/static/media/fondo.35c89ae64096e01e89b9.jpg",
     "index.html": "/App-Vuelo2/index.html",
-    "main.322390a0.css.map": "/App-Vuelo2/static/css/main.322390a0.css.map",
-    "main.1d2db5ee.js.map": "/App-Vuelo2/static/js/main.1d2db5ee.js.map"
+    "main.136f3aa3.css.map": "/App-Vuelo2/static/css/main.136f3aa3.css.map",
+    "main.7caa66ca.js.map": "/App-Vuelo2/static/js/main.7caa66ca.js.map"
   },
   "entrypoints": [
-    "static/css/main.322390a0.css",
-    "static/js/main.1d2db5ee.js"
+    "static/css/main.136f3aa3.css",
+    "static/js/main.7caa66ca.js"
   ]
 }

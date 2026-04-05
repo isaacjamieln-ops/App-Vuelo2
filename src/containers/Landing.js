@@ -19,6 +19,7 @@ function Landing() {
   const [selectedItinerary, setSelectedItinerary] = useState(null);
   const [city, setCity] = useState(null);
   const [travelers, setTravelers] = useState(1);
+  const [showReservationMessage, setShowReservationMessage] = useState(false);
 
   // 🔥 PERSISTENCIA CORREGIDA
   useEffect(() => {
@@ -27,7 +28,7 @@ function Landing() {
     if (savedCity) {
       setCity(savedCity);
     }
-  }, []); // ✅ Array vacío, se ejecuta solo una vez
+  }, []);
 
   useEffect(() => {
     // Guardar ciudad cuando viene desde navigation state
@@ -35,7 +36,7 @@ function Landing() {
       setCity(location.state.city);
       localStorage.setItem("lastCity", location.state.city);
     }
-  }, [location.state?.city]); // ✅ Dependencia específica, no el objeto completo
+  }, [location.state?.city]);
 
   useEffect(() => {
     if (cityName) {
@@ -51,7 +52,12 @@ function Landing() {
     return basePrice;
   };
 
-  // Resto del código igual...
+  const handleReserve = () => {
+    alert("✈️ Viaje reservado, gracias por visitarnos");
+    setShowReservationMessage(true);
+    setTimeout(() => setShowReservationMessage(false), 3000);
+  };
+
   if (loading) {
     return (
       <div className="landing-container">
@@ -254,11 +260,16 @@ function Landing() {
 
         </div>
 
-        {/* BOTÓN */}
+        {/* BOTÓN DE RESERVA CON MENSAJE */}
         <div className="action-section">
-          <button className="book-button">
+          <button className="book-button" onClick={handleReserve}>
             ✈️ Reservar esta experiencia
           </button>
+          {showReservationMessage && (
+            <div className="reservation-message">
+              ✅ ¡Viaje reservado! Gracias por visitarnos.
+            </div>
+          )}
         </div>
 
       </div>

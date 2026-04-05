@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { House, Compass, GeoAlt, Sun, Person } from "react-bootstrap-icons";
+import { House, Compass, GeoAlt, Sun } from "react-bootstrap-icons";
 
 function Navbar() {
   const location = useLocation();
@@ -43,15 +43,6 @@ function Navbar() {
         >
           <Sun size={26} />
           <span className="icon-label">Weather</span>
-        </Link>
-
-        {/* PROFILE */}
-        <Link
-          to="/profile"
-          className={`nav-icon ${location.pathname === "/profile" ? "active" : ""}`}
-        >
-          <Person size={26} />
-          <span className="icon-label">Profile</span>
         </Link>
 
       </div>

@@ -1,77 +1,79 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { fetchCities } from '../store/actions/cityActions';
 import Navbar from '../components/Navbar';
 import SearchSelect from '../components/SearchSelect';
+import Weather from '../containers/Weather';
 import './Places.css';
-import { API_URL } from '../config';  // ✅ SOLO AGREGAR ESTA LÍNEA
 
 function Places() {
   const navigate = useNavigate();
-  const [cities, setCities] = useState([]);
-  const [filteredCities, setFilteredCities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const dispatch = useDispatch();
   const location = useLocation();
+  
+  // ✅ Redux
+  const { cities, loading, error } = useSelector((state) => state.cities);
+  
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  // 🔥 CACHE GLOBAL DE CLIMA
+  const [weatherCache, setWeatherCache] = useState({});
 
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
 
-  // Imágenes para cada ciudad
+  // 📸 Imágenes
   const cityImages = {
-    'Tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dG9raW98ZW58MHx8MHx8fDA%3D',
-    'Paris': 'https://img.freepik.com/fotos-premium/torre-eiffel-paris-horizonte-francia_79295-14918.jpg?semt=ais_hybrid&w=740&q=80',
-    'New York': 'https://t3.ftcdn.net/jpg/01/91/74/46/360_F_191744672_HYfG0261FemsGK5WZWX868BokvbHNmqV.jpg',
-    'Berlin': 'https://images8.alphacoders.com/383/thumb-1920-383973.jpg',
-    'Madrid': 'https://media.istockphoto.com/id/1303417572/photo/madrid-spain-sunrise-city-skyline-at-cibeles-fountain-town-square.jpg?s=612x612&w=0&k=20&c=mJXD6W_jSGLjz-uIkPEKOd0TOsWHG4GXL_2zCaXhQkg=',
-    'Rome': 'https://p0.piqsels.com/preview/648/476/945/rome-italy-evening-puddle.jpg',
-    'London': 'https://c4.wallpaperflare.com/wallpaper/639/936/902/big-ben-in-london-at-sunset-uk-landscape-photography-4k-ultra-hd-desktop-wallpapers-for-computers-laptop-tablet-and-mobile-phones-3840%C3%972160-wallpaper-preview.jpg',
-    'Seoul': 'https://wallpapers.com/images/hd/south-korean-cultural-landmark-rjt5zcdxz1y8qep8.jpg',
-    'Toronto': 'https://images.alphacoders.com/567/thumb-1920-567999.jpg',
-    'Mexico City': 'https://p4.wallpaperbetter.com/wallpaper/547/779/771/building-mexico-city-mexico-square-wallpaper-preview.jpg'
+  Tokyo: "https://content.r9cdn.net/rimg/dimg/10/dd/c1632a46-city-20339-15873436110.jpg?width=1366&height=768&xhint=792&yhint=1072&crop=true",
+  Paris: "https://tipsparatuviaje.com/wp-content/uploads/2019/07/museo-del-louvre.jpg",
+  "New York": "https://media.tacdn.com/media/attractions-splice-spp-674x446/07/3b/51/37.jpg",
+  Berlin: "https://www.riu.com/blog/wp-content/uploads/2023/06/torre-de-la-television-berlin.jpg",
+  Madrid: "https://images.trvl-media.com/place/178281/0a4a7d40-8887-4ad8-87fb-ec37a1256d9a.jpg",
+  Rome: "https://i0.wp.com/www.touristitaly.com/wp-content/uploads/2023/03/Trevi-Fountain-rome-2-scaled.jpg?fit=4272%2C2848&ssl=1",
+  London: "https://res.cloudinary.com/aenetworks/image/upload/c_fill,ar_2,w_3840,h_1920,g_auto/dpr_auto/f_auto/q_auto:eco/v1/topic-london-gettyimages-760251843-feature?_a=BAVAZGB00",
+  Seoul: "https://www.agoda.com/wp-content/uploads/2019/03/Seoul-attractions-Gyeongbokgung-palace.jpg",
+  Toronto: "https://images.trvl-media.com/place/6072459/d020ad34-c7e9-4472-8927-846a6a7d5bfd.jpg",
+  "Mexico City": "https://www.civitatis.com/blog/wp-content/uploads/2022/12/zocalo-ciudad-mexico-noche.jpg"
   };
 
   const getCityImage = (cityName) => {
-    return cityImages[cityName] || 'https://images.pexels.com/photos/327269/pexels-photo-327269.jpeg';
+    return cityImages[cityName] || 'https://www.lifeder.com/wp-content/uploads/2021/10/clima-tipos.jpg';
   };
 
-  const fetchCities = async () => {
-    try {
-      const response = await fetch(`${API_URL}/cities`);  // ✅ SOLO CAMBIAR ESTA LÍNEA
-      if (!response.ok) {
-        throw new Error('Error al obtener las ciudades');
-      }
-      const data = await response.json();
-      setCities(data);
-      
+  // 🚀 Cargar ciudades
+  useEffect(() => {
+    dispatch(fetchCities());
+  }, [dispatch]);
+
+  // 🔎 Filtrado
+  useEffect(() => {
+    if (cities.length > 0) {
       if (searchQuery) {
-        const filtered = data.filter(city => 
+        const filtered = cities.filter(city => 
           city.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           city.country.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setFilteredCities(filtered);
-        const foundCity = data.find(city => city.name.toLowerCase() === searchQuery.toLowerCase());
+
+        const foundCity = cities.find(
+          city => city.name.toLowerCase() === searchQuery.toLowerCase()
+        );
+
         if (foundCity) setSelectedCity(foundCity);
       } else {
-        setFilteredCities(data);
+        setFilteredCities(cities);
       }
-      
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchCities();
-  }, [searchQuery]);
+  }, [cities, searchQuery]);
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
     navigate(`/places?search=${encodeURIComponent(city.name)}`);
   };
 
+  // ⏳ Loading
   if (loading) {
     return (
       <div className="places-container">
@@ -84,6 +86,7 @@ function Places() {
     );
   }
 
+  // ❌ Error
   if (error) {
     return (
       <div className="places-container">
@@ -91,8 +94,10 @@ function Places() {
           <div className="error-icon">❌</div>
           <h3>Error de conexión</h3>
           <p>{error}</p>
-          <p>¿Está corriendo el backend en puerto 5000?</p>
-          <button className="error-btn" onClick={() => window.location.reload()}>
+          <button
+            className="error-btn"
+            onClick={() => dispatch(fetchCities())}
+          >
             Reintentar
           </button>
         </div>
@@ -101,15 +106,19 @@ function Places() {
     );
   }
 
+  // ✅ UI
   return (
     <div className="places-container">
+
       {/* HEADER */}
       <div className="places-header">
         <h1 className="places-title">🌍 Destinos</h1>
-        <p className="places-subtitle">Explora las ciudades más increíbles del mundo</p>
+        <p className="places-subtitle">
+          Explora las ciudades más increíbles del mundo
+        </p>
       </div>
 
-      {/* SELECTOR CON BÚSQUEDA */}
+      {/* SELECT */}
       <div className="places-search-section">
         <SearchSelect
           options={cities}
@@ -120,50 +129,72 @@ function Places() {
         />
       </div>
 
-      {/* TEMPERATURA */}
-      {!loading && cities.length > 0 && (
-        <div className="weather-banner">
-          <div className="weather-card-simple">
-            <span className="weather-icon">🌡️</span>
-            <span className="weather-temp">10°C</span>
-            <span className="weather-location">
-              {selectedCity ? selectedCity.name : cities[Math.floor(Math.random() * cities.length)].name}
-            </span>
-            <span className="weather-desc">Temperatura promedio</span>
-          </div>
-        </div>
-      )}
-
-      {/* GRID DE CIUDADES */}
+      {/* GRID */}
       <div className="cities-grid-container">
         {filteredCities.length === 0 ? (
           <div className="no-results">
             <div className="no-results-icon">🔍</div>
-            <p>No se encontraron ciudades que coincidan con "{searchQuery || 'tu búsqueda'}"</p>
+            <p>No se encontraron ciudades</p>
           </div>
         ) : (
           filteredCities.map((city) => (
             <div className="city-card-solid" key={city._id}>
+
               <div className="city-card-image">
-                <img 
-                  src={getCityImage(city.name)} 
+                <img
+                  src={getCityImage(city.name)}
                   alt={city.name}
                   className="city-img"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.target.src = 'https://images.pexels.com/photos/327269/pexels-photo-327269.jpeg';
-                  }}
                 />
                 <div className="city-card-overlay"></div>
               </div>
+
               <div className="city-card-content">
-                <h3 className="city-card-name">{city.name}</h3>
-                <p className="city-card-country">{city.country}</p>
+                <h3>{city.name}</h3>
+                <p>{city.country}</p>
+
+                {/* 🌡️ WEATHER CON CACHE */}
+                <div className="city-weather-mini">
+                  <Weather
+                    city={city.name}
+                    compact={true}
+                    cache={weatherCache}
+                    setCache={setWeatherCache}
+                  />
+                </div>
+
                 <div className="city-card-footer">
-                  <span className="city-card-price">Desde ${Math.floor(Math.random() * 500) + 200}</span>
-                  <button className="city-card-btn">Explorar</button>
+
+                  {/* 💰 PRECIO */}
+                  <span className="city-card-price">
+                    Desde ${Math.floor(Math.random() * 500) + 200}
+                  </span>
+
+                  {/* 🔥 BOTÓN ORIGINAL */}
+                  <button
+                    className="city-card-btn"
+                    onClick={() =>
+                      navigate(`/landing/${encodeURIComponent(city.name)}`)
+                    }
+                  >
+                    Explorar
+                  </button>
+
+                  {/* 🌡️ BOTÓN CLIMA */}
+                  <button
+                    className="city-card-btn weather-btn"
+                    onClick={() =>
+                      navigate("/weather", {
+                        state: { city: city.name },
+                      })
+                    }
+                  >
+                    Clima
+                  </button>
+
                 </div>
               </div>
+
             </div>
           ))
         )}

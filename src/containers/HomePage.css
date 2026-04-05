@@ -794,3 +794,116 @@ p {
   display: flex;            /* 🔥 FIX */
   align-items: center;      /* 🔥 FIX */
 }
+/* SELECTOR DE VIAJEROS - CORREGIDO */
+.travelers-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.travelers-selector label {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.travelers-input {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 45, 45, 0.3);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.travelers-input option {
+  background: #1a1a1a;
+  color: white;
+}
+
+.travelers-input:hover {
+  border-color: #ff2d2d;
+}
+
+/* Para navegadores webkit (Chrome, Edge, Safari) */
+.travelers-input:focus {
+  outline: none;
+  border-color: #ff2d2d;
+}
+
+/* Estilo para las opciones del select */
+select.travelers-input option {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 10px;
+}
+
+/* Para Firefox */
+select.travelers-input {
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Para eliminar el fondo blanco por defecto */
+select.travelers-input,
+select.travelers-input:focus,
+select.travelers-input:active {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.price-per-person {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 8px;
+}
+.travelers-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: #1a1a1a !important;
+  color: white !important;
+}
+
+/* Dropdown abierto (limitado por navegador) */
+select option {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.weather-page {
+  min-height: 100vh;
+  background: #000;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.weather-card-big {
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 15px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.weather-temp-big {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.weather-extra {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+  font-size: 14px;
+}

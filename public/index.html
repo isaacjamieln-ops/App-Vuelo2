@@ -8,10 +8,10 @@
   <!-- Favicon -->
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
 
-  <!-- ✅ CSP UNIFICADO - Permite conexiones a Render -->
+  <!-- ✅ CSP ACTUALIZADO - Permite conexiones locales y de producción -->
   <meta http-equiv="Content-Security-Policy" 
-        content="default-src 'self' https://backend-viaje-seguro.onrender.com; 
-                 connect-src 'self' https://backend-viaje-seguro.onrender.com; 
+        content="default-src 'self' https://backend-viaje-seguro.onrender.com http://localhost:5000; 
+                 connect-src 'self' https://backend-viaje-seguro.onrender.com http://localhost:5000; 
                  script-src 'self' 'unsafe-inline' 'unsafe-eval'; 
                  style-src 'self' 'unsafe-inline'; 
                  img-src 'self' data: https:;">

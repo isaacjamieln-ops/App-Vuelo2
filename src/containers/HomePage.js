@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCities } from '../store/actions/cityActions';
 import Navbar from "../components/Navbar";
 import SearchSelect from "../components/SearchSelect";
 import "./HomePage.css";
 import videoLocal from "../images/viajeseguro.mp4";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../config";  // ✅ SOLO AGREGAR ESTA LÍNEA
 
 /* 🔥 COMPONENTE DIVIDER */
 const Divider = ({ text }) => {
@@ -20,16 +21,15 @@ const Divider = ({ text }) => {
 
 function HomePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
-  // ✅ Estado para las ciudades desde MongoDB
-  const [cities, setCities] = useState([]);
-  const [destinations, setDestinations] = useState([]);
-  const [loadingCities, setLoadingCities] = useState(true);
-  const [selectedCity, setSelectedCity] = useState(null);
+  // ✅ Obtener estado de Redux
+  const { cities, loading: loadingCities } = useSelector((state) => state.cities);
   
   // ✅ Estado para el buscador
   const [searchDate, setSearchDate] = useState("");
   const [searchTravelers, setSearchTravelers] = useState("1");
+  const [selectedCity, setSelectedCity] = useState(null);
 
   const images = [
     "https://blog.localadventures.mx/wp-content/uploads/2017/12/vuelos-baratos-paginas-b.jpg",
@@ -42,28 +42,10 @@ function HomePage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ FETCH CIUDADES DESDE BACKEND (con API_URL)
+  // ✅ Dispatch la acción de fetchCities al montar el componente
   useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await fetch(`${API_URL}/cities`);  // ✅ SOLO CAMBIAR ESTA LÍNEA
-        if (response.ok) {
-          const data = await response.json();
-          setCities(data);
-          setDestinations(data);
-          setLoadingCities(false);
-        } else {
-          console.error('Error fetching cities');
-          setLoadingCities(false);
-        }
-      } catch (error) {
-        console.error('Error de conexión:', error);
-        setLoadingCities(false);
-      }
-    };
-    
-    fetchCities();
-  }, []);
+    dispatch(fetchCities());
+  }, [dispatch]);
 
   // ✅ MANEJAR SELECCIÓN DE DESTINO
   const handleCitySelect = (city) => {
@@ -140,17 +122,20 @@ function HomePage() {
           value={searchDate}
           onChange={(e) => setSearchDate(e.target.value)}
         />
-        
-        <select 
-          className="search-input"
-          value={searchTravelers}
-          onChange={(e) => setSearchTravelers(e.target.value)}
-        >
-          <option>1 Persona</option>
-          <option>2 Personas</option>
-          <option>3 Personas</option>
-          <option>4 Personas</option>
-        </select>
+
+{/* Reemplaza el select existente por este: */}
+<select 
+  className="search-input travelers-input"
+  value={searchTravelers}
+  onChange={(e) => setSearchTravelers(e.target.value)}
+>
+  <option value="1">1 Persona</option>
+  <option value="2">2 Personas</option>
+  <option value="3">3 Personas</option>
+  <option value="4">4 Personas</option>
+  <option value="5">5 Personas</option>
+  <option value="6">6+ Personas</option>
+</select>
         
         <button className="search-button" onClick={handleSearch}>
           Buscar
@@ -164,7 +149,7 @@ function HomePage() {
             <div className="weather-icon">🌡️</div>
             <div className="weather-temp">10°C</div>
             <div className="weather-location">
-              {cities[Math.floor(Math.random() * cities.length)].name}
+              {cities[Math.floor(Math.random() * cities.length)]?.name}
             </div>
             <div className="weather-desc">Temperatura promedio</div>
           </div>

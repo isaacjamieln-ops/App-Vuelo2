@@ -9,11 +9,12 @@
     "migrate": "node migrate-to-mongoose.js"
   },
   "dependencies": {
+    "axios": "^1.14.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "mongodb": "^7.1.1",
-    "mongoose": "^9.3.3"
+    "mongoose": "^9.4.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

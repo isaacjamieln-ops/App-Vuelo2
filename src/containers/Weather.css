@@ -1,0 +1,66 @@
+/* Weather.css - Versión simplificada */
+.weather-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 45, 45, 0.3);
+}
+
+.weather-box.error {
+  color: #ff2d2d;
+  border-color: #ff2d2d;
+}
+
+.weather-icon {
+  font-size: 2rem;
+}
+
+.weather-info h3 {
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  color: white;
+}
+
+.weather-temp {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ff2d2d;
+}
+
+.weather-desc {
+  font-size: 0.8rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: capitalize;
+}
+
+/* Versión compacta */
+.weather-box-compact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(17, 17, 17, 0.6);
+  border-radius: 20px;
+  padding: 4px 10px;
+  width: fit-content;
+}
+
+.weather-icon-compact {
+  font-size: 0.9rem;
+}
+
+.weather-temp-compact {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #ff2d2d;
+}
+
+.weather-desc-compact {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+}
